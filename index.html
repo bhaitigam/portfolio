@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bhaiti Gam | Web Developer</title>
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-dark: #0ea5e9;
+            --glass: rgba(15, 23, 42, 0.55);
+            --card: rgba(15, 23, 42, 0.7);
+            --border: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .col {
+            padding: 10px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .col-md-4 {
+                width: 33.333%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-7 {
+                width: 58.333%;
+            }
+
+            .col-lg-8 {
+                width: 66.666%;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, .35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            margin-left: 12px;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Small project buttons */
+        .btn-sm {
+            padding: 10px 18px;
+            font-size: 0.95rem;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .project-actions i {
+            margin-right: 6px;
+        }
+
+        /* Sections */
+        section {
+            padding: 90px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 70px;
+            height: 4px;
+            background: var(--accent);
+            display: block;
+            margin: 16px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Cards & Glass */
+        .card,
+        .glass {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem;
+            height: 100%;
+            transition: all 0.35s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+        }
+
+        .card h5 {
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+
+        .glass {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Text & Footer */
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: rgba(15, 23, 42, .85);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        #three-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 7vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #38bdf8, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        .hero .btn {
+            margin-top: 10px;
+        }
+
+        /* Skills Subtitle */
+        .skills-subtitle {
+            margin: 60px 0 30px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        /* Contact Section */
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item i {
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        /* =========================
+   RESPONSIVE
+========================= */
+        @media (max-width: 991px) {
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero p {
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: auto;
+                padding: 70px 0;
+            }
+
+            .glass {
+                padding: 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+            }
+
+            .btn {
+                width: 100%;
+                display: block;
+                margin-bottom: 12px;
+            }
+
+            .btn-outline {
+                margin-left: 0;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .project-actions .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            #three-canvas {
+                opacity: 0.25;
+            }
+
+            .skills-subtitle {
+                font-size: 1.4rem;
+                margin: 40px 0 20px;
+            }
+
+            .contact-item {
+                font-size: 0.95rem;
+                padding: 12px 16px;
+            }
+
+            .contact-item i {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glass {
+                padding: 1.6rem;
+                border-radius: 18px;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <canvas id="three-canvas"></canvas>
+
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col col-lg-7">
+                    <div class="glass hero-card">
+
+                        <h1>Hi, I'm <span>Bhaiti Gam</span></h1>
+
+                        <!-- Contact Info -->
+                        <div class="hero-info">
+                            <p>
+                                <i class="bi bi-telephone-fill"></i>
+                                <span>+91 97072 12121</span>
+                            </p>
+                            <p>
+                                <i class="bi bi-envelope-fill"></i>
+                                <span>bhaitigam71@gmail.com</span>
+                            </p>
+                            <p>
+                                <i class="bi bi-geo-alt-fill"></i>
+                                <span>Majuli, Assam – 785106, India</span>
+                            </p>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="hero-actions">
+                            <a href="#projects" class="btn btn-primary">View Projects</a>
+                            <a href="#contact" class="btn btn-outline">Contact Me</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p class="text-muted col-lg-8" style="margin:auto;text-align:center;">
+                I am a dedicated and curious postgraduate, having completed my Master of Computer Applications (MCA)
+                with a specialization in Data Science (DA). I have a strong interest in web development, data analysis,
+                and building real-world solutions through coding. With hands-on experience in academic and institutional
+                projects, I enjoy learning new technologies and applying them to solve practical problems.
+            </p>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills</h2>
+
+            <!-- Web Development -->
+            <h3 class="skills-subtitle">Web Development</h3>
+            <div class="row">
+                <div class="col col-md-12">
+                    <!-- Frontend -->
+                    <h5>Frontend</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"
+                            alt="HTML5">
+                        <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"
+                            alt="CSS3">
+                        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"
+                            alt="JavaScript">
+                        <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"
+                            alt="Bootstrap">
+                    </p>
+
+                    <!-- Backend -->
+                    <h5>Backend</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"
+                            alt="PHP">
+                        <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"
+                            alt="Node.js">
+                        <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"
+                            alt="MySQL">
+                        <img src="https://img.shields.io/badge/REST_API-008080?style=for-the-badge" alt="REST API">
+                    </p>
+
+                    <!-- Tools & Practices -->
+                    <h5>Tools & Practices</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"
+                            alt="Git">
+                        <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"
+                            alt="GitHub">
+                        <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"
+                            alt="VS Code">
+                        <img src="https://img.shields.io/badge/MVC-6DB33F?style=for-the-badge" alt="MVC">
+                    </p>
+                </div>
+            </div>
+
+            <!-- Data Science -->
+            <h3 class="skills-subtitle">Data Science</h3>
+            <div class="row">
+                <div class="col col-md-12">
+                    <!-- Programming -->
+                    <h5>Programming</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"
+                            alt="Python">
+                        <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge" alt="NumPy">
+                        <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge" alt="Pandas">
+                    </p>
+
+                    <!-- Machine Learning -->
+                    <h5>Machine Learning</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge"
+                            alt="Scikit-learn">
+                        <img src="https://img.shields.io/badge/Regression-007ACC?style=for-the-badge" alt="Regression">
+                        <img src="https://img.shields.io/badge/Classification-008080?style=for-the-badge"
+                            alt="Classification">
+                    </p>
+
+                    <!-- Data & Visualization -->
+                    <h5>Data & Visualization</h5>
+                    <p>
+                        <img src="https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge" alt="Matplotlib">
+                        <img src="https://img.shields.io/badge/Seaborn-5A9BD5?style=for-the-badge" alt="Seaborn">
+                        <img src="https://img.shields.io/badge/EDA-6A1B9A?style=for-the-badge" alt="EDA">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+
+            <div class="row">
+                <!-- Project 1 -->
+                <div class="col col-md-4">
+                    <div class="card project-card">
+                        <h5>Automated Student Seat Allotment System</h5>
+                        <p class="text-muted">
+                            An advanced system for automated exam seat planning across all departments and semesters.
+                            It processes student data from CSV files and generates:
+                        <ul>
+                            <li>Individual Hall Tickets</li>
+                            <li>Seat Plan Summary Sheets</li>
+                            <li>Top Sheet for attendance tracking</li>
+                        </ul>
+                        The system automatically generates PDFs and DOCX documents, manages room structures bench-wise,
+                        and ensures fair distribution of students to prevent cheating. It intelligently handles
+                        department, semester, and room capacity, making exam organization faster, accurate,
+                        and secure.
+                        </p>
+
+                        <div class="project-actions">
+                            <a href="https://github.com/bhaitigam/automated-student-seat-allotments-system.git" target="_blank"
+                                class="btn btn-outline btn-sm">
+                                <i class="bi bi-github"></i> Source Code
+                            </a>
+                            <a href="#assas-details" class="btn btn-primary btn-sm">
+                                <i class="bi bi-info-circle-fill"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="col col-md-4">
+                    <div class="card project-card">
+                        <h5>Event Management System (EMS)</h5>
+                        <p class="text-muted">
+                            A web-based platform to efficiently manage events, including scheduling, participant
+                            registration, venue allocation, and real-time updates. Streamlines event planning and
+                            enhances user engagement.
+                        </p>
+
+                        <div class="project-actions">
+                            <a href="https://github.com/yourusername/jobassams" target="_blank"
+                                class="btn btn-outline btn-sm">
+                                <i class="bi bi-github"></i> Source Code
+                            </a>
+                            <a href="#jobassams-details" class="btn btn-primary btn-sm">
+                                <i class="bi bi-info-circle-fill"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="col col-md-4">
+                    <div class="card project-card">
+                        <h5>Speech Emotion Recognition: Human Speech Sentiment Detection</h5>
+                        <p class="text-muted">
+                            A machine learning system that analyzes human speech to detect emotions and sentiments in
+                            real-time, enabling applications like mood analysis, customer support feedback, and
+                            interactive AI assistants.
+                        </p>
+
+                        <div class="project-actions">
+                            <a href="https://github.com/yourusername/comment-system" target="_blank"
+                                class="btn btn-outline btn-sm">
+                                <i class="bi bi-github"></i> Source Code
+                            </a>
+                            <a href="#comment-details" class="btn btn-primary btn-sm">
+                                <i class="bi bi-info-circle-fill"></i> Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Get in Touch</h2>
+
+            <div class="contact-list">
+                <a href="mailto:bhaitigam71@email.com" class="contact-item">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>bhaitigam71@email.com</span>
+                </a>
+
+                <a href="https://github.com/bhaitigam" target="_blank" class="contact-item">
+                    <i class="bi bi-github"></i>
+                    <span>github.com/bhaitigam</span>
+                </a>
+
+                <a href="https://www.linkedin.com/in/kavin71/" target="_blank" class="contact-item">
+                    <i class="bi bi-linkedin"></i>
+                    <span>linkedin.com/in/kavin71</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer>
+        © 2026 Bhaiti Gam. All rights reserved.
+    </footer>
+
+    <!-- Professional 3D Floating Triangles Background -->
+    <script>
+        const canvas = document.getElementById('three-canvas');
+
+        const isMobile = window.innerWidth < 768 || /Android/i.test(navigator.userAgent);
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(
+            60,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            500
+        );
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            alpha: true,
+            antialias: !isMobile
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+        renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.physicallyCorrectLights = true;
+
+        /* LIGHTING – clean & professional */
+        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+
+        const keyLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+        keyLight.position.set(30, 40, 50);
+        scene.add(keyLight);
+
+        const rimLight = new THREE.DirectionalLight(0xa78bfa, 0.8);
+        rimLight.position.set(-30, -20, 40);
+        scene.add(rimLight);
+
+        /* TRIANGLES */
+        const triangles = [];
+        const TRIANGLE_COUNT = isMobile ? 16 : 32;
+
+        const geometry = new THREE.TetrahedronGeometry(4);
+
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0x38bdf8,
+            roughness: 0.35,
+            metalness: 0.6,
+            clearcoat: 0.6,
+            transparent: true,
+            opacity: 0.85
+        });
+
+        const edgeMaterial = new THREE.LineBasicMaterial({
+            color: 0x94a3b8,
+            transparent: true,
+            opacity: 0.6
+        });
+
+        for (let i = 0; i < TRIANGLE_COUNT; i++) {
+            const mesh = new THREE.Mesh(geometry, material);
+
+            mesh.position.set(
+                Math.random() * 120 - 60,
+                Math.random() * 120 - 60,
+                Math.random() * 60 - 30
+            );
+
+            const scale = Math.random() * 0.8 + 0.6;
+            mesh.scale.set(scale, scale, scale);
+
+            mesh.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * Math.PI
+            );
+
+            /* EDGE (3D BORDER) */
+            const edges = new THREE.LineSegments(
+                new THREE.EdgesGeometry(geometry),
+                edgeMaterial
+            );
+            mesh.add(edges);
+
+            mesh.userData = {
+                rx: Math.random() * 0.004 + 0.002,
+                ry: Math.random() * 0.005 + 0.002,
+                float: Math.random() * 0.008 + 0.004,
+                phase: Math.random() * Math.PI * 2
+            };
+
+            scene.add(mesh);
+            triangles.push(mesh);
+        }
+
+        camera.position.z = 90;
+
+        /* ANIMATION */
+        function animate() {
+            requestAnimationFrame(animate);
+
+            triangles.forEach(t => {
+                t.rotation.x += t.userData.rx;
+                t.rotation.y += t.userData.ry;
+
+                t.position.y += Math.sin(Date.now() * 0.0006 + t.userData.phase) * t.userData.float;
+
+                if (t.position.y > 90) t.position.y = -90;
+                if (t.position.y < -90) t.position.y = 90;
+            });
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+
+
+</body>
+
+</html>
