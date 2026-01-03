@@ -358,6 +358,178 @@
 </head>
 
 <body>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <!-- Hamburger button (left) -->
+    <button class="navbar-toggle" id="navbar-toggle">&#9776;</button>
+
+    <!-- Logo / Name -->
+    <a href="#hero" class="logo">Bhaiti Gam</a>
+
+    <!-- Menu -->
+    <ul class="navbar-menu" id="navbar-menu">
+      <li><a href="#hero">Home</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <!-- Dark/Light Mode Toggle -->
+    <button id="theme-toggle" class="theme-toggle">🌙</button>
+  </div>
+</nav>
+
+<!-- Side Menu for Mobile -->
+<div id="side-menu" class="side-menu">
+  <button id="side-close" class="side-close">&times;</button>
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="theme-options">
+    <p>Theme:</p>
+    <button id="dark-mode">Dark</button>
+    <button id="light-mode">Light</button>
+  </div>
+</div>
+
+<!-- CSS -->
+<style>
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg, #0f172a);
+    color: var(--text, #e2e8f0);
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: #0f172a;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+  }
+  .navbar .container {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+  }
+  .logo { color: #38bdf8; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
+
+  /* Desktop Menu */
+  .navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar-menu li a { color: #e2e8f0; text-decoration: none; font-weight: 500; transition: 0.3s; }
+  .navbar-menu li a:hover { color: #38bdf8; }
+
+  /* Hamburger */
+  .navbar-toggle { display: none; font-size: 1.8rem; color: #e2e8f0; background: none; border: none; cursor: pointer; }
+
+  /* Theme button */
+  .theme-toggle {
+    background: none;
+    border: none;
+    color: #e2e8f0;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+
+  /* Side Menu */
+  .side-menu {
+    position: fixed;
+    left: -250px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 2rem 1rem;
+    transition: left 0.3s;
+    z-index: 1100;
+  }
+  .side-menu.active { left: 0; }
+  .side-close { font-size: 2rem; background: none; border: none; color: #e2e8f0; cursor: pointer; margin-bottom: 2rem; }
+  .side-menu ul { list-style: none; padding: 0; }
+  .side-menu ul li { margin: 1rem 0; }
+  .side-menu ul li a { color: #e2e8f0; text-decoration: none; font-size: 1.1rem; }
+  .side-menu ul li a:hover { color: #38bdf8; }
+
+  .theme-options { margin-top: 2rem; }
+  .theme-options p { margin-bottom: 0.5rem; }
+  .theme-options button {
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  #dark-mode { background: #1e293b; color: #38bdf8; }
+  #light-mode { background: #e2e8f0; color: #0f172a; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .navbar-menu { display: none; }
+    .navbar-toggle { display: block; }
+  }
+</style>
+
+<!-- JS -->
+<script>
+  const toggleButton = document.getElementById('navbar-toggle');
+  const sideMenu = document.getElementById('side-menu');
+  const sideClose = document.getElementById('side-close');
+
+  // Open side menu
+  toggleButton.addEventListener('click', () => sideMenu.classList.add('active'));
+
+  // Close side menu
+  sideClose.addEventListener('click', () => sideMenu.classList.remove('active'));
+
+  // Dark/Light Mode
+  const darkBtn = document.getElementById('dark-mode');
+  const lightBtn = document.getElementById('light-mode');
+
+  darkBtn.addEventListener('click', () => {
+    document.body.style.background = '#0f172a';
+    document.body.style.color = '#e2e8f0';
+  });
+
+  lightBtn.addEventListener('click', () => {
+    document.body.style.background = '#f1f5f9';
+    document.body.style.color = '#0f172a';
+  });
+
+  // Optional: theme toggle button in navbar
+  const themeToggle = document.getElementById('theme-toggle');
+  let dark = true;
+  themeToggle.addEventListener('click', () => {
+    if(dark){
+      document.body.style.background = '#f1f5f9';
+      document.body.style.color = '#0f172a';
+      themeToggle.textContent = '🌞';
+    } else {
+      document.body.style.background = '#0f172a';
+      document.body.style.color = '#e2e8f0';
+      themeToggle.textContent = '🌙';
+    }
+    dark = !dark;
+  });
+</script>
 
     <!-- HERO -->
     <section class="hero">
