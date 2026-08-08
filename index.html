@@ -1,936 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kavin Gam | Web Developer</title>
-
-    <!-- Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Bhaiti Gam - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0f172a;
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-dark: #0ea5e9;
-            --glass: rgba(15, 23, 42, 0.55);
-            --card: rgba(15, 23, 42, 0.7);
-            --border: rgba(255, 255, 255, 0.12);
-        }
+        body { font-family: 'Outfit', sans-serif; }
+        .handwritten { font-family: 'Caveat', cursive; }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 0 20px;
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-
-        .col {
-            padding: 10px;
-            width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            .col-md-4 {
-                width: 33.333%;
-            }
-        }
-
-        @media (min-width: 992px) {
-            .col-lg-7 {
-                width: 58.333%;
-            }
-
-            .col-lg-8 {
-                width: 66.666%;
-            }
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.05rem;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #fff;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, .35);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-        }
-
-        .btn-outline {
-            border: 2px solid var(--accent);
-            color: var(--accent);
-            margin-left: 12px;
-        }
-
-        .btn-outline:hover {
-            background: var(--accent);
-            color: #fff;
-        }
-
-        /* Small project buttons */
-        .btn-sm {
-            padding: 10px 18px;
-            font-size: 0.95rem;
-        }
-
-        .project-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .project-actions i {
-            margin-right: 6px;
-        }
-
-        /* Sections */
-        section {
-            padding: 90px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.6rem);
-            font-weight: 700;
-            margin-bottom: 40px;
-        }
-
-        .section-title::after {
-            content: '';
-            width: 70px;
-            height: 4px;
-            background: var(--accent);
-            display: block;
-            margin: 16px auto 0;
-            border-radius: 2px;
-        }
-
-        /* Cards & Glass */
-        .card,
-        .glass {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 2rem;
-            height: 100%;
-            transition: all 0.35s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-        }
-
-        .card h5 {
-            color: var(--accent);
-            margin-bottom: 12px;
-            font-size: 1.4rem;
-        }
-
-        .glass {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-        }
-
-        /* Text & Footer */
-        .text-muted {
-            color: var(--text-muted);
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px 0;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            background: rgba(15, 23, 42, .85);
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 80px 0;
-            overflow: hidden;
-        }
-
-        #three-canvas {
+        /* Blob shapes */
+        .blob {
             position: absolute;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.15;
+            animation: blobFloat 8s ease-in-out infinite;
+        }
+        .blob-1 { width: 400px; height: 400px; background: #f59e0b; top: -100px; right: -100px; animation-delay: 0s; }
+        .blob-2 { width: 300px; height: 300px; background: #ec4899; bottom: 10%; left: -80px; animation-delay: 2s; }
+        .blob-3 { width: 350px; height: 350px; background: #8b5cf6; top: 40%; right: -50px; animation-delay: 4s; }
+        .blob-4 { width: 250px; height: 250px; background: #10b981; bottom: -50px; left: 30%; animation-delay: 1s; }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.2rem, 7vw, 4.5rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(135deg, #38bdf8, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-        }
-
-        .hero .btn {
-            margin-top: 10px;
-        }
-
-        /* Skills Subtitle */
-        .skills-subtitle {
-            margin: 60px 0 30px;
-            font-size: 1.6rem;
-            font-weight: 600;
-            text-align: center;
-            color: var(--accent);
-        }
-
-        /* Contact Section */
-        .contact-list {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
-            border-radius: 14px;
-            background: rgba(15, 23, 42, 0.55);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1.05rem;
+        /* Hand-drawn border effect */
+        .sketch-border {
+            border: 3px solid #1e293b;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            box-shadow: 4px 4px 0px 0px #1e293b;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+        }
+        .sketch-border:hover {
+            box-shadow: 6px 6px 0px 0px #1e293b;
+            transform: translate(-2px, -2px);
         }
 
-        .contact-item i {
-            font-size: 1.4rem;
-            color: var(--accent);
+        .sketch-border-light {
+            border: 2px solid #475569;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
         }
 
-        .contact-item:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+        /* Doodle decorations */
+        .doodle-line {
+            stroke-dasharray: 8;
+            animation: dashDraw 2s ease-in-out infinite alternate;
+        }
+        @keyframes dashDraw {
+            to { stroke-dashoffset: 16; }
         }
 
-        /* =========================
-   RESPONSIVE
-========================= */
-        @media (max-width: 991px) {
-            .hero-content {
-                text-align: center;
-            }
-
-            .hero p {
-                margin: 0 auto;
-            }
+        /* Paper texture background */
+        .paper-bg {
+            background-color: #fefce8;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4d4d8' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
 
-        @media (max-width: 768px) {
-            .hero {
-                min-height: auto;
-                padding: 70px 0;
-            }
-
-            .glass {
-                padding: 2rem;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
-            .hero p {
-                font-size: 1.05rem;
-            }
-
-            .btn {
-                width: 100%;
-                display: block;
-                margin-bottom: 12px;
-            }
-
-            .btn-outline {
-                margin-left: 0;
-            }
-
-            .project-actions {
-                flex-direction: column;
-            }
-
-            .project-actions .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            #three-canvas {
-                opacity: 0.25;
-            }
-
-            .skills-subtitle {
-                font-size: 1.4rem;
-                margin: 40px 0 20px;
-            }
-
-            .contact-item {
-                font-size: 0.95rem;
-                padding: 12px 16px;
-            }
-
-            .contact-item i {
-                font-size: 1.2rem;
-            }
+        /* Illustration cards */
+        .illust-card {
+            background: white;
+            border: 3px solid #1e293b;
+            border-radius: 20px;
+            box-shadow: 6px 6px 0px 0px #1e293b;
+            transition: all 0.3s ease;
+        }
+        .illust-card:hover {
+            box-shadow: 8px 8px 0px 0px #1e293b;
+            transform: translate(-2px, -2px);
         }
 
-        @media (max-width: 480px) {
-            .glass {
-                padding: 1.6rem;
-                border-radius: 18px;
-            }
+        /* Stamp effect */
+        .stamp {
+            border: 3px solid #ef4444;
+            color: #ef4444;
+            border-radius: 50%;
+            transform: rotate(-12deg);
+            font-family: 'Caveat', cursive;
+        }
 
-            .hero h1 {
-                font-size: 2rem;
-            }
+        /* Wavy underline */
+        .wavy-underline {
+            text-decoration: underline;
+            text-decoration-style: wavy;
+            text-decoration-color: #f59e0b;
+            text-underline-offset: 6px;
+        }
+
+        /* Tape effect */
+        .tape {
+            position: absolute;
+            width: 80px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(0,0,0,0.1);
+            transform: rotate(-5deg);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Polaroid frame */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 40px 12px;
+            border: 2px solid #1e293b;
+            box-shadow: 4px 4px 0px 0px #1e293b;
+            transform: rotate(-3deg);
+            transition: all 0.3s ease;
+        }
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 6px 6px 0px 0px #1e293b;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Button sketch */
+        .btn-sketch {
+            border: 3px solid #1e293b;
+            border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+            box-shadow: 3px 3px 0px 0px #1e293b;
+            transition: all 0.2s ease;
+        }
+        .btn-sketch:hover {
+            box-shadow: 5px 5px 0px 0px #1e293b;
+            transform: translate(-2px, -2px);
+        }
+        .btn-sketch:active {
+            box-shadow: 1px 1px 0px 0px #1e293b;
+            transform: translate(2px, 2px);
+        }
+
+        /* Highlight marker */
+        .marker-highlight {
+            background: linear-gradient(120deg, rgba(251, 191, 36, 0) 0%, rgba(251, 191, 36, 0.4) 15%, rgba(251, 191, 36, 0.4) 85%, rgba(251, 191, 36, 0) 100%);
+            padding: 0 8px;
+        }
+
+        /* Arrow doodle */
+        .arrow-doodle {
+            position: absolute;
+            width: 60px;
+            height: 60px;
         }
     </style>
+<base target="_blank">
 </head>
+<body class="paper-bg text-slate-800 overflow-x-hidden">
 
-<body>
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="container">
-    <!-- Hamburger button (left) -->
-    <button class="navbar-toggle" id="navbar-toggle">&#9776;</button>
+    <!-- Floating Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
 
-    <!-- Logo / Name -->
-    <a href="#hero" class="logo">Kavin Gam</a>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b-2 border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold handwritten text-amber-600 transform -rotate-2">Bhaiti Gam</div>
+            <div class="hidden md:flex space-x-8 text-sm font-bold text-slate-700">
+                <a href="#home" class="hover:text-amber-600 transition-colors relative group">
+                    Home
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#about" class="hover:text-amber-600 transition-colors relative group">
+                    About
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#projects" class="hover:text-amber-600 transition-colors relative group">
+                    Projects
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#experience" class="hover:text-amber-600 transition-colors relative group">
+                    Experience
+                    <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all group-hover:w-full"></span>
+                </a>
+            </div>
+            <button id="menuBtn" class="md:hidden text-slate-800 hover:text-amber-600">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t-2 border-slate-800">
+            <a href="#home" class="block px-6 py-3 text-slate-700 hover:bg-amber-50 hover:text-amber-600 font-bold">Home</a>
+            <a href="#about" class="block px-6 py-3 text-slate-700 hover:bg-amber-50 hover:text-amber-600 font-bold">About</a>
+            <a href="#projects" class="block px-6 py-3 text-slate-700 hover:bg-amber-50 hover:text-amber-600 font-bold">Projects</a>
+            <a href="#experience" class="block px-6 py-3 text-slate-700 hover:bg-amber-50 hover:text-amber-600 font-bold">Experience</a>
+        </div>
+    </nav>
 
-    <!-- Menu -->
-    <ul class="navbar-menu" id="navbar-menu">
-      <li><a href="#hero">Home</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
 
-    <!-- Dark/Light Mode Toggle -->
-    <button id="theme-toggle" class="theme-toggle">🌙</button>
-  </div>
-</nav>
+            <!-- Illustration Side -->
+            <div class="hidden md:flex justify-center items-center relative">
+                <!-- Decorative elements -->
+                <svg class="absolute -top-10 -left-10 w-20 h-20 text-amber-400 animate-spin" style="animation-duration: 20s;" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="50" cy="50" r="40" stroke-dasharray="8 8"/>
+                    <circle cx="50" cy="50" r="25" stroke-dasharray="4 4"/>
+                </svg>
 
-<!-- Side Menu for Mobile -->
-<div id="side-menu" class="side-menu">
-  <button id="side-close" class="side-close">&times;</button>
-  <ul>
-    <li><a href="#hero">Home</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="theme-options">
-    <p>Theme:</p>
-    <button id="dark-mode">Dark</button>
-    <button id="light-mode">Light</button>
-  </div>
-</div>
+                <svg class="absolute bottom-0 right-0 w-16 h-16 text-pink-400" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z"/>
+                </svg>
 
-<!-- CSS -->
-<style>
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg, #0f172a);
-    color: var(--text, #e2e8f0);
-    transition: background 0.3s, color 0.3s;
-  }
+                <svg class="absolute top-10 right-10 w-12 h-12 text-cyan-400" viewBox="0 0 100 100" fill="currentColor">
+                    <polygon points="50,5 95,97.5 5,97.5"/>
+                </svg>
 
-  /* Navbar */
-  .navbar {
-    background: #0f172a;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    width: 100%;
-  }
-  .navbar .container {
-    max-width: 1200px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.8rem 2rem;
-  }
-  .logo { color: #38bdf8; font-weight: 700; font-size: 1.5rem; text-decoration: none; }
-
-  /* Desktop Menu */
-  .navbar-menu {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-  }
-  .navbar-menu li a { color: #e2e8f0; text-decoration: none; font-weight: 500; transition: 0.3s; }
-  .navbar-menu li a:hover { color: #38bdf8; }
-
-  /* Hamburger */
-  .navbar-toggle { display: none; font-size: 1.8rem; color: #e2e8f0; background: none; border: none; cursor: pointer; }
-
-  /* Theme button */
-  .theme-toggle {
-    background: none;
-    border: none;
-    color: #e2e8f0;
-    font-size: 1.5rem;
-    cursor: pointer;
-    margin-left: 1rem;
-  }
-
-  /* Side Menu */
-  .side-menu {
-    position: fixed;
-    left: -250px;
-    top: 0;
-    width: 250px;
-    height: 100%;
-    background: #0f172a;
-    color: #e2e8f0;
-    padding: 2rem 1rem;
-    transition: left 0.3s;
-    z-index: 1100;
-  }
-  .side-menu.active { left: 0; }
-  .side-close { font-size: 2rem; background: none; border: none; color: #e2e8f0; cursor: pointer; margin-bottom: 2rem; }
-  .side-menu ul { list-style: none; padding: 0; }
-  .side-menu ul li { margin: 1rem 0; }
-  .side-menu ul li a { color: #e2e8f0; text-decoration: none; font-size: 1.1rem; }
-  .side-menu ul li a:hover { color: #38bdf8; }
-
-  .theme-options { margin-top: 2rem; }
-  .theme-options p { margin-bottom: 0.5rem; }
-  .theme-options button {
-    padding: 0.5rem 1rem;
-    margin-right: 0.5rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-  }
-  #dark-mode { background: #1e293b; color: #38bdf8; }
-  #light-mode { background: #e2e8f0; color: #0f172a; }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .navbar-menu { display: none; }
-    .navbar-toggle { display: block; }
-  }
-</style>
-
-<!-- JS -->
-<script>
-  const toggleButton = document.getElementById('navbar-toggle');
-  const sideMenu = document.getElementById('side-menu');
-  const sideClose = document.getElementById('side-close');
-
-  // Open side menu
-  toggleButton.addEventListener('click', () => sideMenu.classList.add('active'));
-
-  // Close side menu
-  sideClose.addEventListener('click', () => sideMenu.classList.remove('active'));
-
-  // Dark/Light Mode
-  const darkBtn = document.getElementById('dark-mode');
-  const lightBtn = document.getElementById('light-mode');
-
-  darkBtn.addEventListener('click', () => {
-    document.body.style.background = '#0f172a';
-    document.body.style.color = '#e2e8f0';
-  });
-
-  lightBtn.addEventListener('click', () => {
-    document.body.style.background = '#f1f5f9';
-    document.body.style.color = '#0f172a';
-  });
-
-  // Optional: theme toggle button in navbar
-  const themeToggle = document.getElementById('theme-toggle');
-  let dark = true;
-  themeToggle.addEventListener('click', () => {
-    if(dark){
-      document.body.style.background = '#f1f5f9';
-      document.body.style.color = '#0f172a';
-      themeToggle.textContent = '🌞';
-    } else {
-      document.body.style.background = '#0f172a';
-      document.body.style.color = '#e2e8f0';
-      themeToggle.textContent = '🌙';
-    }
-    dark = !dark;
-  });
-</script>
-
-    <!-- HERO -->
-    <section class="hero">
-        <canvas id="three-canvas"></canvas>
-
-        <div class="container hero-content">
-            <div class="row">
-                <div class="col col-lg-7">
-                    <div class="glass hero-card">
-
-                        <h1>Hi, I'm <span>Kavin (<strong>Bhaiti</strong>) Gam</span></h1>
-
-                        <!-- Contact Info -->
-                        <div class="hero-info">
-                            <p>
-                                <i class="bi bi-telephone-fill"></i>
-                                <span>+91 9707xx xx xx</span>
-                            </p>
-                            <p>
-                                <i class="bi bi-envelope-fill"></i>
-                                <span>bhaitigam71@gmail.com</span>
-                            </p>
-                            <p>
-                                <i class="bi bi-geo-alt-fill"></i>
-                                <span>Majuli, Assam – 785106, India</span>
-                            </p>
+                <!-- Main illustration frame -->
+                <div class="polaroid relative bg-white">
+                    <div class="w-64 h-72 bg-gradient-to-br from-amber-100 via-orange-50 to-pink-50 rounded-lg flex items-center justify-center relative overflow-hidden border-2 border-slate-800">
+                        <!-- Avatar illustration -->
+                        <div class="relative">
+                            <div class="w-32 h-32 bg-amber-200 rounded-full border-3 border-slate-800 flex items-center justify-center relative overflow-hidden">
+                                <div class="absolute top-4 left-8 w-3 h-3 bg-slate-800 rounded-full"></div>
+                                <div class="absolute top-4 right-8 w-3 h-3 bg-slate-800 rounded-full"></div>
+                                <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-12 h-6 border-b-4 border-slate-800 rounded-full"></div>
+                                <div class="absolute top-0 w-full h-12 bg-slate-800"></div>
+                            </div>
+                            <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-8 bg-amber-400 rounded-full border-2 border-slate-800"></div>
                         </div>
 
-                        <!-- Buttons -->
-                        <div class="hero-actions">
-                            <a href="#projects" class="btn btn-primary">View Projects</a>
-                            <a href="#contact" class="btn btn-outline">Contact Me</a>
+                        <!-- Decorative dots -->
+                        <div class="absolute top-4 left-4 flex space-x-2">
+                            <div class="w-3 h-3 rounded-full bg-red-400 border border-slate-800"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400 border border-slate-800"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-400 border border-slate-800"></div>
+                        </div>
+                    </div>
+                    <p class="handwritten text-2xl text-center mt-4 text-slate-600 transform rotate-1">Hello! I am Bhaiti</p>
+                </div>
+
+                <!-- Arrow pointing -->
+                <svg class="absolute -right-8 top-1/2 w-16 h-16 text-slate-800 transform -rotate-45" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                    <path d="M10 50 Q 50 10, 90 50" class="doodle-line"/>
+                    <path d="M75 35 L90 50 L75 65"/>
+                </svg>
+            </div>
+
+            <!-- Text Side -->
+            <div class="text-center md:text-left">
+                <div class="inline-block px-4 py-2 bg-amber-100 border-2 border-slate-800 rounded-full text-amber-800 text-sm font-bold mb-6 transform -rotate-1">
+                    <span class="handwritten text-lg">Portfolio 2026</span>
+                </div>
+
+                <h1 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight text-slate-800">
+                    Mr. <span class="marker-highlight">Bhaiti</span><br>
+                    <span class="handwritten text-6xl md:text-8xl text-amber-600 transform -rotate-2 inline-block">Gam</span>
+                </h1>
+
+                <p class="text-xl text-slate-600 mb-2 font-medium">IT Educator & Developer</p>
+                <p class="handwritten text-2xl text-pink-500 mb-8 transform rotate-1">Building things that matter</p>
+
+                <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#projects" class="px-8 py-3 bg-amber-400 text-slate-900 font-bold btn-sketch hover:bg-amber-300">View My Work</a>
+                    <a href="#about" class="px-8 py-3 bg-white text-slate-800 font-bold btn-sketch hover:bg-slate-50">About Me</a>
+                </div>
+
+                <!-- Hand-drawn arrow down -->
+                <div class="mt-12 flex justify-center md:justify-start">
+                    <svg class="w-12 h-16 text-slate-400 animate-bounce" viewBox="0 0 50 80" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                        <path d="M25 5 L25 60 M10 45 L25 60 L40 45"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="handwritten text-3xl text-amber-600">Get to know me</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mt-2">About <span class="wavy-underline">Me</span></h2>
+
+                <!-- Decorative star -->
+                <svg class="inline-block w-8 h-8 text-amber-400 ml-2 animate-pulse" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z"/>
+                </svg>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Illustration Profile Card -->
+                <div class="flex justify-center reveal">
+                    <div class="relative">
+                        <!-- Tape decorations -->
+                        <div class="tape" style="top: -12px; left: 30px;"></div>
+                        <div class="tape" style="top: -12px; right: 30px; transform: rotate(5deg);"></div>
+
+                        <div class="illust-card w-80 p-8 relative bg-amber-50">
+                            <!-- Stamp -->
+                            <div class="stamp absolute -top-4 -right-4 w-20 h-20 flex items-center justify-center text-xl font-bold border-4">
+                                MCA
+                            </div>
+
+                            <div class="text-center mb-6">
+                                <div class="w-24 h-24 mx-auto bg-gradient-to-br from-amber-200 to-orange-200 rounded-full border-3 border-slate-800 flex items-center justify-center mb-4">
+                                    <span class="text-3xl font-extrabold text-slate-800">BG</span>
+                                </div>
+                                <h3 class="text-2xl font-bold">Mr. Bhaiti Gam</h3>
+                                <p class="handwritten text-xl text-amber-600">Educator & Developer</p>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-3 p-3 bg-white rounded-xl border-2 border-slate-800 sketch-border-light">
+                                    <div class="w-10 h-10 rounded-full bg-amber-100 border-2 border-slate-800 flex items-center justify-center text-amber-600">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Education</p>
+                                        <p class="font-bold text-slate-800">B.Voc IT & MCA</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-3 p-3 bg-white rounded-xl border-2 border-slate-800 sketch-border-light">
+                                    <div class="w-10 h-10 rounded-full bg-pink-100 border-2 border-slate-800 flex items-center justify-center text-pink-600">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Institution</p>
+                                        <p class="font-bold text-slate-800">Sibsagar University</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-3 p-3 bg-white rounded-xl border-2 border-slate-800 sketch-border-light">
+                                    <div class="w-10 h-10 rounded-full bg-cyan-100 border-2 border-slate-800 flex items-center justify-center text-cyan-600">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Specialization</p>
+                                        <p class="font-bold text-slate-800">Data Science</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Qualifications -->
+                <div class="space-y-6 reveal">
+                    <h3 class="text-3xl font-extrabold text-slate-800">
+                        My <span class="handwritten text-4xl text-amber-600">Qualifications</span>
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed">Passionate about technology and education, I have built a strong academic foundation combined with practical development experience.</p>
+
+                    <div class="space-y-4">
+                        <div class="illust-card p-6 bg-white group cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 border-2 border-slate-800 flex items-center justify-center flex-shrink-0 group-hover:rotate-6 transition-transform">
+                                    <svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-lg text-slate-800">Master of Computer Applications (MCA)</h4>
+                                        <span class="handwritten text-lg text-pink-500">- Data Science</span>
+                                    </div>
+                                    <p class="text-slate-500 font-medium">Sibsagar University</p>
+                                    <p class="text-sm text-slate-400 mt-1">Advanced studies in data analytics, machine learning, and software engineering.</p>
+                                </div>
+                            </div>
                         </div>
 
+                        <div class="illust-card p-6 bg-white group cursor-pointer">
+                            <div class="flex items-start gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 border-2 border-slate-800 flex items-center justify-center flex-shrink-0 group-hover:-rotate-6 transition-transform">
+                                    <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-slate-800">Bachelor of Vocation (B.Voc) - IT</h4>
+                                    <p class="text-slate-500 font-medium">Dibrugarh University</p>
+                                    <p class="text-sm text-slate-400 mt-1">Foundation in Information Technology, programming, and system development.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fun doodle -->
+                    <svg class="w-32 h-16 text-amber-400 mt-4" viewBox="0 0 120 50" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M5 25 Q 30 5, 60 25 T 115 25" class="doodle-line"/>
+                        <path d="M100 15 L115 25 L100 35"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="handwritten text-3xl text-pink-500">Check out my</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mt-2">Featured <span class="wavy-underline">Projects</span></h2>
+
+                <!-- Decorative elements -->
+                <svg class="inline-block w-10 h-10 text-cyan-400 ml-3 animate-bounce" viewBox="0 0 100 100" fill="currentColor">
+                    <polygon points="50,5 95,97.5 5,97.5"/>
+                </svg>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10">
+                <!-- Project 1 -->
+                <div class="reveal">
+                    <div class="illust-card overflow-hidden bg-white">
+                        <!-- Header illustration -->
+                        <div class="h-56 bg-gradient-to-br from-amber-100 to-orange-100 relative overflow-hidden border-b-2 border-slate-800">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <!-- Laptop illustration -->
+                                <svg class="w-40 h-32 text-slate-800" viewBox="0 0 200 150" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                                    <rect x="20" y="20" width="160" height="100" rx="8" fill="white" stroke-width="3"/>
+                                    <rect x="30" y="30" width="140" height="70" rx="4" fill="#fef3c7" stroke-width="2"/>
+                                    <path d="M10 120 L190 120 L180 140 L20 140 Z" fill="white" stroke-width="3"/>
+                                    <circle cx="100" cy="130" r="4" fill="#fbbf24" stroke="none"/>
+                                    <rect x="45" y="45" width="30" height="8" rx="2" fill="#fbbf24" stroke="none"/>
+                                    <rect x="45" y="60" width="50" height="6" rx="2" fill="#cbd5e1" stroke="none"/>
+                                    <rect x="45" y="72" width="40" height="6" rx="2" fill="#cbd5e1" stroke="none"/>
+                                    <circle cx="150" cy="55" r="15" fill="#fbbf24" stroke="none"/>
+                                    <path d="M145 55 L150 60 L158 50" stroke="white" stroke-width="3"/>
+                                </svg>
+                            </div>
+
+                            <!-- Floating badges -->
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-white border-2 border-slate-800 rounded-full text-xs font-bold transform rotate-3">
+                                Web App
+                            </div>
+                        </div>
+
+                        <div class="p-8">
+                            <h3 class="text-2xl font-extrabold mb-3 text-slate-800">Automated Student Seat Allotment System</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">A comprehensive web-based system developed for <span class="font-bold text-amber-600">Sibsagar University</span> to automate the student seat allocation process efficiently and transparently.</p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-4 py-1.5 bg-amber-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">PHP</span>
+                                <span class="px-4 py-1.5 bg-orange-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">MySQL</span>
+                                <span class="px-4 py-1.5 bg-yellow-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">JavaScript</span>
+                                <span class="px-4 py-1.5 bg-amber-50 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">Bootstrap</span>
+                            </div>
+
+                            <div class="handwritten text-xl text-amber-600 transform -rotate-1">Built with care for students</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="reveal">
+                    <div class="illust-card overflow-hidden bg-white">
+                        <div class="h-56 bg-gradient-to-br from-purple-100 to-pink-100 relative overflow-hidden border-b-2 border-slate-800">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <!-- Website illustration -->
+                                <svg class="w-40 h-36 text-slate-800" viewBox="0 0 200 170" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+                                    <rect x="20" y="10" width="160" height="140" rx="8" fill="white" stroke-width="3"/>
+                                    <rect x="20" y="10" width="160" height="25" rx="8" fill="#e9d5ff" stroke-width="3"/>
+                                    <circle cx="40" cy="22" r="4" fill="#ef4444" stroke="none"/>
+                                    <circle cx="55" cy="22" r="4" fill="#fbbf24" stroke="none"/>
+                                    <circle cx="70" cy="22" r="4" fill="#22c55e" stroke="none"/>
+                                    <rect x="35" y="50" width="50" height="40" rx="4" fill="#f3e8ff" stroke-width="2"/>
+                                    <rect x="95" y="50" width="70" height="8" rx="2" fill="#ddd6fe" stroke="none"/>
+                                    <rect x="95" y="65" width="50" height="6" rx="2" fill="#e9d5ff" stroke="none"/>
+                                    <rect x="95" y="78" width="60" height="6" rx="2" fill="#e9d5ff" stroke="none"/>
+                                    <rect x="35" y="100" width="130" height="30" rx="4" fill="#f3e8ff" stroke-width="2"/>
+                                    <path d="M140 130 L160 110 L180 130" stroke="#a855f7" stroke-width="3" fill="none"/>
+                                </svg>
+                            </div>
+
+                            <div class="absolute top-4 right-4 px-3 py-1 bg-white border-2 border-slate-800 rounded-full text-xs font-bold transform -rotate-2">
+                                Website
+                            </div>
+                        </div>
+
+                        <div class="p-8">
+                            <h3 class="text-2xl font-extrabold mb-3 text-slate-800">GKB College Website</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Official website development for <span class="font-bold text-purple-600">GKB College</span> featuring modern design, responsive layout, and dynamic content management system.</p>
+
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="px-4 py-1.5 bg-purple-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">HTML5</span>
+                                <span class="px-4 py-1.5 bg-pink-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">CSS3</span>
+                                <span class="px-4 py-1.5 bg-fuchsia-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">JavaScript</span>
+                                <span class="px-4 py-1.5 bg-violet-100 border-2 border-slate-800 rounded-full text-xs font-bold text-slate-800">Responsive</span>
+                            </div>
+
+                            <div class="handwritten text-xl text-purple-600 transform rotate-1">Crafted for the community</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Experience Section -->
+    <section id="experience" class="py-24 relative">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="handwritten text-3xl text-cyan-500">My journey so far</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mt-2">Work <span class="wavy-underline">Experience</span></h2>
 
-    <!-- ABOUT -->
-    <section>
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <p class="text-muted col-lg-8" style="margin:auto;text-align:center;">
-                I am a dedicated and curious postgraduate, having completed my <strong>Master of Computer Applications</strong> (MCA)
-                with a specialization in <strong>Data Science (DA)</strong>. I have a strong interest in web development, data analysis,
-                and building real-world solutions through coding. With hands-on experience in academic and institutional
-                projects, I enjoy learning new technologies and applying them to solve practical problems.
-            </p>
-        </div>
-    </section>
-
-    <!-- WORKING -->
-    <section>
-        <div class="container">
-            <h2 class="section-title">Professional Engagement</h2>
-            <p class="text-muted col-lg-8" style="margin:auto;text-align:center;">
-                I serve as an <strong>IT Guest Faculty Lecturer</strong> at <strong>Dikhowmuk College</strong>, where I am involved
-                in delivering lectures on computer and information technology subjects. My responsibilities include
-                conducting practical sessions, guiding students in hands-on learning, and fostering a strong
-                understanding of fundamental and applied computing concepts.
-            </p>
-        </div>
-     </section>
-
-
-    
-    <!-- SKILLS -->
-    <section id="skills">
-        <div class="container">
-            <h2 class="section-title">Skills</h2>
-
-            <!-- Web Development -->
-            <h3 class="skills-subtitle">Web Development</h3>
-            <div class="row">
-                <div class="col col-md-12">
-                    <!-- Frontend -->
-                    <h5>Frontend</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"
-                            alt="HTML5">
-                        <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"
-                            alt="CSS3">
-                        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"
-                            alt="JavaScript">
-                        <img src="https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white"
-                            alt="Bootstrap">
-                    </p>
-
-                    <!-- Backend -->
-                    <h5>Backend</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"
-                            alt="PHP">
-                        <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"
-                            alt="Node.js">
-                        <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"
-                            alt="MySQL">
-                        <img src="https://img.shields.io/badge/REST_API-008080?style=for-the-badge" alt="REST API">
-                    </p>
-
-                    <!-- Tools & Practices -->
-                    <h5>Tools & Practices</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"
-                            alt="Git">
-                        <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"
-                            alt="GitHub">
-                        <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white"
-                            alt="VS Code">
-                        <img src="https://img.shields.io/badge/MVC-6DB33F?style=for-the-badge" alt="MVC">
-                    </p>
-                </div>
+                <svg class="inline-block w-8 h-8 text-amber-400 ml-2 animate-spin" style="animation-duration: 15s;" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z"/>
+                </svg>
             </div>
 
-            <!-- Data Science -->
-            <h3 class="skills-subtitle">Data Science</h3>
-            <div class="row">
-                <div class="col col-md-12">
-                    <!-- Programming -->
-                    <h5>Programming</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"
-                            alt="Python">
-                        <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge" alt="NumPy">
-                        <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge" alt="Pandas">
-                    </p>
+            <div class="relative">
+                <!-- Central path illustration -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-2 hidden md:block">
+                    <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 10 400">
+                        <path d="M5 0 Q 2 100, 8 200 T 5 400" stroke="#1e293b" stroke-width="3" fill="none" stroke-dasharray="8 6"/>
+                    </svg>
+                </div>
 
-                    <!-- Machine Learning -->
-                    <h5>Machine Learning</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/Scikit--learn-F7931E?style=for-the-badge"
-                            alt="Scikit-learn">
-                        <img src="https://img.shields.io/badge/Regression-007ACC?style=for-the-badge" alt="Regression">
-                        <img src="https://img.shields.io/badge/Classification-008080?style=for-the-badge"
-                            alt="Classification">
-                    </p>
+                <div class="space-y-16">
+                    <!-- Current Job -->
+                    <div class="relative flex flex-col md:flex-row items-center reveal">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0">
+                            <div class="illust-card p-8 bg-emerald-50 relative inline-block w-full">
+                                <div class="tape" style="top: -12px; right: 20px; transform: rotate(3deg);"></div>
 
-                    <!-- Data & Visualization -->
-                    <h5>Data & Visualization</h5>
-                    <p>
-                        <img src="https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge" alt="Matplotlib">
-                        <img src="https://img.shields.io/badge/Seaborn-5A9BD5?style=for-the-badge" alt="Seaborn">
-                        <img src="https://img.shields.io/badge/EDA-6A1B9A?style=for-the-badge" alt="EDA">
-                    </p>
+                                <div class="inline-block px-4 py-1 bg-emerald-200 border-2 border-slate-800 rounded-full text-xs font-bold text-emerald-800 mb-3 transform -rotate-2">
+                                    Currently Here
+                                </div>
+                                <h3 class="text-2xl font-extrabold text-emerald-700 mb-1">Faculty Member</h3>
+                                <p class="text-xl font-bold text-slate-800 mb-3">GKB College</p>
+                                <p class="text-slate-600 leading-relaxed">Working as a faculty member contributing to the academic and technical development of the institution. Teaching computer science and mentoring students.</p>
+
+                                <div class="handwritten text-2xl text-emerald-500 mt-4 transform -rotate-2">Proud to be here!</div>
+                            </div>
+                        </div>
+
+                        <!-- Node -->
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-emerald-400 border-3 border-slate-800 rounded-full hidden md:flex items-center justify-center z-10">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+
+                        <div class="md:w-1/2 md:pl-16"></div>
+                    </div>
+
+                    <!-- Previous Job -->
+                    <div class="relative flex flex-col md:flex-row items-center reveal">
+                        <div class="md:w-1/2 md:pr-16 md:text-right mb-6 md:mb-0 order-2 md:order-1"></div>
+
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-purple-400 border-3 border-slate-800 rounded-full hidden md:flex items-center justify-center z-10">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+
+                        <div class="md:w-1/2 md:pl-16 order-1 md:order-2">
+                            <div class="illust-card p-8 bg-purple-50 relative inline-block w-full">
+                                <div class="tape" style="top: -12px; left: 20px; transform: rotate(-3deg);"></div>
+
+                                <div class="inline-block px-4 py-1 bg-purple-200 border-2 border-slate-800 rounded-full text-xs font-bold text-purple-800 mb-3 transform rotate-2">
+                                    Previous Role
+                                </div>
+                                <h3 class="text-2xl font-extrabold text-purple-700 mb-1">Computer Professor</h3>
+                                <p class="text-xl font-bold text-slate-800 mb-3">DM College IT Faculty</p>
+                                <p class="text-slate-600 leading-relaxed">Served as Computer Professor in the IT Faculty, teaching and mentoring students in computer science and IT subjects with dedication and passion.</p>
+
+                                <div class="handwritten text-2xl text-purple-500 mt-4 transform rotate-1">Great learning experience!</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-    <div class="container">
-        <h2 class="section-title">Projects</h2>
+    <!-- Contact/Footer Section -->
+    <section class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="illust-card p-12 bg-white relative inline-block w-full">
+                <!-- Corner decorations -->
+                <svg class="absolute -top-6 -left-6 w-12 h-12 text-amber-400" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z"/>
+                </svg>
+                <svg class="absolute -bottom-6 -right-6 w-12 h-12 text-pink-400" viewBox="0 0 100 100" fill="currentColor">
+                    <polygon points="50,5 95,97.5 5,97.5"/>
+                </svg>
 
-        <div class="row">
-            <!-- Project 1 -->
-            <div class="col col-md-4">
-                <div class="card project-card">
-                    <h5>Automated Student Seat Allotment System – Sibsagar University</h5>
-                    <p class="text-muted">
-                        A comprehensive and intelligent examination seat allocation system developed for
-                        <strong>Sibsagar University</strong>. The system automates the complete process of
-                        exam hall planning across multiple departments and semesters using structured CSV data.
-                    </p>
-                    <ul class="text-muted">
-                        <li>Automated generation of individual Hall Tickets</li>
-                        <li>Department-wise and room-wise Seat Plan Summary</li>
-                        <li>Top Sheets for invigilation and attendance tracking</li>
-                        <li>Bench-wise and capacity-based room allocation</li>
-                    </ul>
-                    <p class="text-muted">
-                        The system exports reports in <strong>PDF and DOCX formats</strong>, ensures fair
-                        student distribution to minimize malpractice, and significantly reduces manual effort,
-                        errors, and time during examination management.
-                    </p>
+                <span class="handwritten text-3xl text-amber-600">Don't be shy</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold mt-2 mb-4">Let's <span class="marker-highlight">Connect</span></h2>
+                <p class="text-slate-600 mb-10 text-lg max-w-lg mx-auto">Interested in collaboration or have a project in mind? Feel free to reach out. I'd love to hear from you!</p>
 
-                    <div class="project-actions">
-                        <a href="https://github.com/bhaitigam/automated-student-seat-allotments-system.git" target="_blank"
-                            class="btn btn-outline btn-sm">
-                            <i class="bi bi-github"></i> Source Code
-                        </a>
-                        <a href="#assas-details" class="btn btn-primary btn-sm">
-                            <i class="bi bi-info-circle-fill"></i> Details
-                        </a>
-                    </div>
+                <div class="flex justify-center space-x-6 mb-10">
+                    <a href="#" class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-slate-800 flex items-center justify-center text-slate-700 hover:bg-amber-200 hover:scale-110 transition-all transform -rotate-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                    <a href="#" class="w-14 h-14 rounded-2xl bg-purple-100 border-2 border-slate-800 flex items-center justify-center text-slate-700 hover:bg-purple-200 hover:scale-110 transition-all transform rotate-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#" class="w-14 h-14 rounded-2xl bg-cyan-100 border-2 border-slate-800 flex items-center justify-center text-slate-700 hover:bg-cyan-200 hover:scale-110 transition-all transform -rotate-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                    </a>
+                </div>
+
+                <div class="border-t-2 border-dashed border-slate-300 pt-8">
+                    <p class="text-slate-500 font-medium"> Mr. Bhaiti Gam. All rights reserved.</p>
+                    <p class="handwritten text-xl text-slate-400 mt-2">Designed with love & illustrations</p>
                 </div>
             </div>
-
-            <!-- Project 2 -->
-            <div class="col col-md-4">
-                <div class="card project-card">
-                    <h5>Event Management System (EMS)</h5>
-                    <p class="text-muted">
-                        A dynamic web-based application designed to manage academic and institutional events
-                        efficiently. The system supports event scheduling, participant registration, venue
-                        management, and real-time notifications.
-                    </p>
-                    <p class="text-muted">
-                        It improves coordination among organizers and participants while providing a smooth,
-                        user-friendly experience through centralized event control.
-                    </p>
-
-                    <div class="project-actions">
-                        <a href="https://github.com/yourusername/jobassams" target="_blank"
-                            class="btn btn-outline btn-sm">
-                            <i class="bi bi-github"></i> Source Code
-                        </a>
-                        <a href="#jobassams-details" class="btn btn-primary btn-sm">
-                            <i class="bi bi-info-circle-fill"></i> Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="col col-md-4">
-                <div class="card project-card">
-                    <h5>Speech Emotion Recognition System</h5>
-                    <p class="text-muted">
-                        A machine learning–based system that analyzes human speech signals to identify emotional
-                        states such as happiness, anger, sadness, and neutrality.
-                    </p>
-                    <p class="text-muted">
-                        The model processes audio features in real time, enabling applications in customer
-                        feedback analysis, mental health monitoring, and intelligent voice-enabled systems.
-                    </p>
-
-                    <div class="project-actions">
-                        <a href="https://github.com/yourusername/comment-system" target="_blank"
-                            class="btn btn-outline btn-sm">
-                            <i class="bi bi-github"></i> Source Code
-                        </a>
-                        <a href="#comment-details" class="btn btn-primary btn-sm">
-                            <i class="bi bi-info-circle-fill"></i> Details
-                        </a>
-                    </div>
-                </div>
-            </div>
-
         </div>
+    </section>
+
+    <!-- Floating decorative shapes -->
+    <div class="fixed bottom-10 right-10 w-16 h-16 bg-amber-200 border-2 border-slate-800 rounded-full flex items-center justify-center transform rotate-12 z-40 opacity-80 hover:scale-110 transition-transform cursor-pointer" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <svg class="w-8 h-8 text-slate-800" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     </div>
-</section>
 
-
-    <!-- CONTACT -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-
-            <div class="contact-list">
-                <a href="mailto:bhaitigam71@email.com" class="contact-item">
-                    <i class="bi bi-envelope-fill"></i>
-                    <span>bhaitigam71@email.com</span>
-                </a>
-
-                <a href="https://github.com/bhaitigam" target="_blank" class="contact-item">
-                    <i class="bi bi-github"></i>
-                    <span>github.com/bhaitigam</span>
-                </a>
-
-                <a href="https://www.linkedin.com/in/kavin71/" target="_blank" class="contact-item">
-                    <i class="bi bi-linkedin"></i>
-                    <span>linkedin.com/in/kavin71</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
-
-    <footer>
-        © 2026 Bhaiti Gam. All rights reserved.
-    </footer>
-
-    <!-- Professional 3D Floating Triangles Background -->
     <script>
-        const canvas = document.getElementById('three-canvas');
-
-        const isMobile = window.innerWidth < 768 || /Android/i.test(navigator.userAgent);
-
-        const scene = new THREE.Scene();
-
-        const camera = new THREE.PerspectiveCamera(
-            60,
-            window.innerWidth / window.innerHeight,
-            0.1,
-            500
-        );
-
-        const renderer = new THREE.WebGLRenderer({
-            canvas,
-            alpha: true,
-            antialias: !isMobile
-        });
-
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
-        renderer.outputEncoding = THREE.sRGBEncoding;
-        renderer.physicallyCorrectLights = true;
-
-        /* LIGHTING – clean & professional */
-        scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-
-        const keyLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
-        keyLight.position.set(30, 40, 50);
-        scene.add(keyLight);
-
-        const rimLight = new THREE.DirectionalLight(0xa78bfa, 0.8);
-        rimLight.position.set(-30, -20, 40);
-        scene.add(rimLight);
-
-        /* TRIANGLES */
-        const triangles = [];
-        const TRIANGLE_COUNT = isMobile ? 16 : 32;
-
-        const geometry = new THREE.TetrahedronGeometry(4);
-
-        const material = new THREE.MeshPhysicalMaterial({
-            color: 0x38bdf8,
-            roughness: 0.35,
-            metalness: 0.6,
-            clearcoat: 0.6,
-            transparent: true,
-            opacity: 0.85
-        });
-
-        const edgeMaterial = new THREE.LineBasicMaterial({
-            color: 0x94a3b8,
-            transparent: true,
-            opacity: 0.6
-        });
-
-        for (let i = 0; i < TRIANGLE_COUNT; i++) {
-            const mesh = new THREE.Mesh(geometry, material);
-
-            mesh.position.set(
-                Math.random() * 120 - 60,
-                Math.random() * 120 - 60,
-                Math.random() * 60 - 30
-            );
-
-            const scale = Math.random() * 0.8 + 0.6;
-            mesh.scale.set(scale, scale, scale);
-
-            mesh.rotation.set(
-                Math.random() * Math.PI,
-                Math.random() * Math.PI,
-                Math.random() * Math.PI
-            );
-
-            /* EDGE (3D BORDER) */
-            const edges = new THREE.LineSegments(
-                new THREE.EdgesGeometry(geometry),
-                edgeMaterial
-            );
-            mesh.add(edges);
-
-            mesh.userData = {
-                rx: Math.random() * 0.004 + 0.002,
-                ry: Math.random() * 0.005 + 0.002,
-                float: Math.random() * 0.008 + 0.004,
-                phase: Math.random() * Math.PI * 2
-            };
-
-            scene.add(mesh);
-            triangles.push(mesh);
-        }
-
-        camera.position.z = 90;
-
-        /* ANIMATION */
-        function animate() {
-            requestAnimationFrame(animate);
-
-            triangles.forEach(t => {
-                t.rotation.x += t.userData.rx;
-                t.rotation.y += t.userData.ry;
-
-                t.position.y += Math.sin(Date.now() * 0.0006 + t.userData.phase) * t.userData.float;
-
-                if (t.position.y > 90) t.position.y = -90;
-                if (t.position.y < -90) t.position.y = 90;
+        $(document).ready(function() {
+            // Mobile menu
+            $('#menuBtn').click(function() {
+                $('#mobileMenu').slideToggle(300);
             });
 
-            renderer.render(scene, camera);
-        }
+            // Smooth scroll
+            $('a[href^="#"]').on('click', function(e) {
+                e.preventDefault();
+                $('#mobileMenu').slideUp(300);
+                $('html, body').animate({
+                    scrollTop: $($(this).attr('href')).offset().top - 80
+                }, 800, 'swing');
+            });
 
-        animate();
+            // Scroll reveal
+            $(window).scroll(function() {
+                $('.reveal').each(function() {
+                    const elementTop = $(this).offset().top;
+                    const viewportBottom = $(window).scrollTop() + $(window).height();
+                    if (elementTop < viewportBottom - 100) {
+                        $(this).addClass('visible');
+                    }
+                });
+            });
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            $(window).trigger('scroll');
         });
     </script>
-
-
 </body>
-
 </html>
-
-
